@@ -1,0 +1,9 @@
+<!--There are problem displaying more than one search at once without uglying the interface-->
+<div class="ui search">
+    <div class="ui icon input">
+        <input class="prompt" #searchBox  (keyup)="search(searchBox.value)" type="text" placeholder="Search...">
+        <i class="search icon"></i>
+    </div>
+    <div class="myresults" *ngFor="let task of tasks | async"
+         (click)="gotoDetail(task)">{{task.task}}</div>
+</div>

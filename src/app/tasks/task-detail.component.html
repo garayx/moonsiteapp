@@ -1,0 +1,55 @@
+<!--if there is a taskloaded display task details and edit form-->
+<div *ngIf="taskLoaded">
+    <div class="ui attached message">
+        <div class="header">
+            <i class="edit icon"></i>Selected task details
+        </div>
+        <p>Fill out the form below to edit the task.</p>
+    </div>
+    <form class="ui form attached fluid segment warning" action="" [formGroup]="taskUpdateForm">
+        <div class="field">
+            <label>Order:</label> <input type="text" class="input-lg" formControlName="order" placeholder="order"><br>
+        </div>
+        <div class="ui warning message" *ngIf="!taskUpdateForm.get('order').valid && taskUpdateForm.get('order').touched">
+             <ul class="list">
+                <li *ngIf="taskUpdateForm.get('order').hasError('required') && taskUpdateForm.get('order').touched">Order number is required.</li>
+                <li *ngIf="taskUpdateForm.get('order').hasError('minlength') && taskUpdateForm.get('order').touched">Minimum of 1 characters.</li>
+                <li *ngIf="taskUpdateForm.get('order').hasError('maxlength') && taskUpdateForm.get('order').touched">maximum of 5 characters.</li>
+                <li *ngIf="taskUpdateForm.get('order').hasError('pattern') && taskUpdateForm.get('order').touched">Must be a number.</li>
+            </ul>
+        </div>
+        <div class="field">
+            <label>Task: </label><input type="text" class="input-lg" formControlName="task" placeholder="task"><br>
+        </div>
+        <div class="ui warning message" *ngIf="!taskUpdateForm.get('task').valid && taskUpdateForm.get('task').touched">
+             <ul class="list">
+                <li *ngIf="taskUpdateForm.get('task').hasError('required') && taskUpdateForm.get('task').touched">Task is required.</li>
+                <li *ngIf="taskUpdateForm.get('task').hasError('minlength') && taskUpdateForm.get('task').touched">Minimum 2 characters required.</li>
+                <li *ngIf="taskUpdateForm.get('task').hasError('maxlength') && taskUpdateForm.get('task').touched">Maximum 50 characters.</li>
+            </ul>
+        </div>
+        <div class="field">
+            <label>ID: </label> {{task._id}}
+        </div>
+        <div class="field">
+            <label>Created: </label> {{task.created_at | date: 'dd/MM/yyyy'}}
+        </div>
+        <div class="field">
+            <label>Updated: </label> {{task.updated_at | date: 'dd/MM/yyyy'}}
+        </div>
+        <div class="field">
+            <label>User: </label> {{task.user}}
+        </div>
+        <div class="field">
+            <label>Active: </label> {{task.active}}
+        </div>
+        <button class="ui blue submit button"  [disabled]="(loading || !taskUpdateForm.valid)" (click)="save()">Save</button>
+        <i *ngIf="loading" class="black notched circle loading icon"></i>
+        <button class="ui blue submit button" (click)="goBack()">Back</button>
+    </form>
+</div>
+<!--if task not loaded display message-->
+<div *ngIf="!taskLoaded">
+    <h4 class="ui header">Task did not load!</h4>
+    <button class="ui blue submit button" (click)="goToTasks()">Back</button>
+</div>

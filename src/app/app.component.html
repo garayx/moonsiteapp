@@ -1,20 +1,32 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{title}}!
-  </h1>
-  <img width="300" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAxOS4xLjAsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiDQoJIHZpZXdCb3g9IjAgMCAyNTAgMjUwIiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCAyNTAgMjUwOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+DQo8c3R5bGUgdHlwZT0idGV4dC9jc3MiPg0KCS5zdDB7ZmlsbDojREQwMDMxO30NCgkuc3Qxe2ZpbGw6I0MzMDAyRjt9DQoJLnN0MntmaWxsOiNGRkZGRkY7fQ0KPC9zdHlsZT4NCjxnPg0KCTxwb2x5Z29uIGNsYXNzPSJzdDAiIHBvaW50cz0iMTI1LDMwIDEyNSwzMCAxMjUsMzAgMzEuOSw2My4yIDQ2LjEsMTg2LjMgMTI1LDIzMCAxMjUsMjMwIDEyNSwyMzAgMjAzLjksMTg2LjMgMjE4LjEsNjMuMiAJIi8+DQoJPHBvbHlnb24gY2xhc3M9InN0MSIgcG9pbnRzPSIxMjUsMzAgMTI1LDUyLjIgMTI1LDUyLjEgMTI1LDE1My40IDEyNSwxNTMuNCAxMjUsMjMwIDEyNSwyMzAgMjAzLjksMTg2LjMgMjE4LjEsNjMuMiAxMjUsMzAgCSIvPg0KCTxwYXRoIGNsYXNzPSJzdDIiIGQ9Ik0xMjUsNTIuMUw2Ni44LDE4Mi42aDBoMjEuN2gwbDExLjctMjkuMmg0OS40bDExLjcsMjkuMmgwaDIxLjdoMEwxMjUsNTIuMUwxMjUsNTIuMUwxMjUsNTIuMUwxMjUsNTIuMQ0KCQlMMTI1LDUyLjF6IE0xNDIsMTM1LjRIMTA4bDE3LTQwLjlMMTQyLDEzNS40eiIvPg0KPC9nPg0KPC9zdmc+DQo=">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" href="https://blog.angular.io//">Angular blog</a></h2>
-  </li>
-</ul>
+<div class="ui divider"></div>
+<div class="ui blue secondary  menu">
+    <div class="ui container">
+        <!--            Two options for each link. Active & nonactive.                                -->
+        <a *ngIf="this.router.url == '/'" class="active item" routerLink="/" routerLinkActive="active"><i class="home icon"></i>Home</a>
+        <a *ngIf="this.router.url != '/'" class="ui item" routerLink="/"><i class="home icon"></i>Home</a>
 
+        <a class="active item" routerLink="/tasks" *ngIf="authService.authenticated && (this.router.url == '/tasks')" routerLinkActive="active"><i class="tasks icon"></i>Tasks</a>
+        <a class="ui item" routerLink="/tasks" *ngIf="authService.authenticated && (this.router.url != '/tasks')"><i class="tasks icon"></i>Tasks</a>
+
+        <div class="right menu">
+            <div class="item" *ngIf="authService.authenticated">
+                <task-search></task-search>
+            </div>
+            <a class="ui item" routerLink="/register" *ngIf="!authService.authenticated && (this.router.url != '/register')">Register</a>
+            <a class="active item" routerLink="/register" *ngIf="!authService.authenticated && (this.router.url == '/register')" routerLinkActive="active">Register</a>
+
+            <a class="ui item" routerLink="/login" *ngIf="!authService.authenticated && (this.router.url != '/login')"><i class="sign in icon"></i>Login</a>
+            <a class="active item" routerLink="/login" *ngIf="!authService.authenticated && (this.router.url == '/login')" routerLinkActive="active"><i class="sign in icon"></i>Login</a>
+
+            <a class="ui item" (click)=authService.logout() *ngIf="authService.authenticated"><i class="sign out icon"></i>Log Out</a>
+        </div>
+    </div></div>
+<div class="ui divider"></div>
+<br>
+<div class="ui container">
+    <alert></alert>
+    <router-outlet></router-outlet>
+</div>
+<div class="page-footer">
+<homefooter></homefooter>
+</div>

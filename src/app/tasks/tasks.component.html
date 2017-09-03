@@ -1,0 +1,105 @@
+<!--Title of the page-->
+<h3 class="ui dividing header"><i class="tasks icon"></i>Manage tasks
+</h3>
+<!--Setting grid-->
+<div class="ui grid">
+    <!--Creates left menu block-->
+    <div class="four wide column">
+        <!--Select task block block-->
+        <div class="ui attached message">
+            <div class="header">
+                <i class="check square icon"></i> Selected task:
+            </div>
+        </div>
+        <div class="ui card attached segment">
+            <div class="content">
+                <!--different descriptions if task selected-->
+                <div class="description" *ngIf="selectedTask"> 
+                    <p>{{selectedTask.task}}</p>
+                    <button class="ui blue submit button" [disabled]="selectedTask == null" (click)="gotoDetail()">View Details</button>
+                </div>
+                <div class="description" *ngIf="selectedTask == null"><p>Please select a task first.</p>
+                    <button class="ui blue submit button" [disabled]="selectedTask == null" (click)="gotoDetail()">View Details</button></div>
+            </div>
+        </div>
+        <!--Add task block-->
+        <div class="ui attached message">
+            <div class="header">
+                <i class="add square icon"></i> Add task
+            </div>
+        </div>
+        <!--Add Task Form with validation-->
+        <form class="ui form attached fluid segment warning" action="" [formGroup]="addTaskForm">
+            <div class="field">
+                <label>Order:</label> <input type="text" maxlength="5" class="input-lg" formControlName="order" placeholder="Number"><br>
+            </div>
+            <div class="ui warning message" *ngIf="!addTaskForm.get('order').valid && addTaskForm.get('order').touched">
+                 <ul class="list">
+                    <li *ngIf="addTaskForm.get('order').hasError('required') && addTaskForm.get('order').touched">Order number is required.</li>
+                    <li *ngIf="addTaskForm.get('order').hasError('minlength') && addTaskForm.get('order').touched">Minimum of 1 characters.</li>
+                    <li *ngIf="addTaskForm.get('order').hasError('maxlength') && addTaskForm.get('order').touched">maximum of 5 characters.</li>
+                    <li *ngIf="addTaskForm.get('order').hasError('pattern') && addTaskForm.get('order').touched">Must be a number.</li>
+                </ul>
+            </div>
+            <div class="field">
+                <label>Task:</label><input type="text" class="input-lg" formControlName="task" placeholder="task">
+            </div>
+            <div class="ui warning message" *ngIf="!addTaskForm.get('task').valid && addTaskForm.get('task').touched">
+                 <ul class="list">
+                    <li *ngIf="addTaskForm.get('task').hasError('required') && addTaskForm.get('task').touched">Task is required.</li>
+                    <li *ngIf="addTaskForm.get('task').hasError('minlength') && addTaskForm.get('task').touched">Minimum 2 characters required.</li>
+                    <li *ngIf="addTaskForm.get('task').hasError('maxlength') && addTaskForm.get('task').touched">Maximum 50 characters.</li>
+                </ul>
+            </div>
+            <button class="ui blue submit button" [disabled]="(loading || !addTaskForm.valid)" (click)="add()">Add</button>
+            <i *ngIf="loading" class="black notched circle loading icon"></i>
+            </form>
+    </div>
+<!--    Task table block-->
+    <div class="twelve wide column">
+        <h3 class="ui header">All tasks:</h3>
+        <table class="ui compact selectable celled table" *ngIf="this.tasks.length > 0">
+            <thead>
+                <tr>      
+                    <th class="one wide">Order</th>
+                    <th class="twelve wide">Task</th>
+                    <th class="two wide">Created</th>
+                    <th class="one wide">Remove</th>
+                </tr>
+            </thead>
+<!--            <tbody [dragula]='"bag-tasks"' [dragulaModel]='tasks'>-->
+            <tbody>
+                <tr *ngFor="let task of tasks | orderBy : ['order']"
+                    (click)="onSelect(task)" [class.selected]="task === selectedTask" >
+<!--                    [class.selected]="task === selectedTask">-->
+                    <td class="center aligned">{{task.order}}</td>
+                    <td>{{task.task}}</td>
+                    <td>{{task.created_at | date: 'dd/MM/yyyy'}}</td>
+                    <td class="center aligned">
+                        <button class="ui  compact icon button" (click)="remove(task); $event.stopPropagation()"><i class="remove icon"></i></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="ui icon message" *ngIf="this.tasks.length == 0 && this.loadingTimer == true">
+            <i class="big icons">
+                <i class="black notched circle loading icon"></i>
+            </i>
+            <div class="content">
+                <p>Task are loading. Please wait.</p>
+            </div>
+        </div>
+        <div class="ui icon warning message" *ngIf="this.tasks.length == 0 && this.loadingTimer == false">
+            <i class="big icons">
+                <i class="big red dont icon"></i>
+                <i class="black tasks icon"></i>
+            </i>
+            <div class="content">
+                <div class="header">
+                    There are no tasks created!
+                </div>
+                <p>Please add tasks, then try again.</p>
+            </div>
+        </div>
+    </div>
+</div>

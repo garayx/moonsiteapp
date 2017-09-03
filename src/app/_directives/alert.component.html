@@ -1,0 +1,15 @@
+<div align="center" *ngIf="message" [ngClass]="{
+    'alert': message,
+    'alert-success': message.type === 'success',
+    'alert-danger': message.type === 'error' 
+    }">
+    <div class="ui compact positive message" *ngIf="(message.type === 'success')">
+        <p>{{message.text}}</p>
+        {{this.hideMsg()}}
+    </div>
+    <div class="ui compact warning message" *ngIf="(message.type === 'error')">
+        <p>{{message.text}}</p>
+        {{this.hideMsg()}}
+    </div>
+    <br>
+</div>

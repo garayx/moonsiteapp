@@ -1,0 +1,44 @@
+<div *ngIf="!this.authenticationService.authenticated">
+
+    <div class="ui attached message">
+        <div class="header">
+            <i class="sign in icon"></i>Welcome to our site!
+        </div>
+        <p>Fill out the form below to sign-in</p>
+    </div>
+    <form class="ui form attached fluid segment warning" action="" [formGroup]="loginForm">
+        <div class="field">
+            <label>Email:</label>
+            <input type="email" class="input-lg" formControlName="email" placeholder="Email">
+        </div>
+        <div class="ui warning message" *ngIf="!loginForm.get('email').valid && loginForm.get('email').touched">
+             <ul class="list">
+                <li *ngIf="loginForm.get('email').hasError('required') && loginForm.get('email').touched">Email is required.</li>
+                <li *ngIf="loginForm.get('email').hasError('minlength') && loginForm.get('email').touched">Email must be minimum of 6 characters.</li>
+                <li *ngIf="loginForm.get('email').hasError('maxlength') && loginForm.get('email').touched">Email must be maximum of 30 characters.</li>
+                <li *ngIf="loginForm.get('email').hasError('email') && loginForm.get('email').touched">Must be email address.</li>
+            </ul>
+        </div>
+        <div class="field">
+            <label>Password: </label><input type="password" class="input-lg" formControlName="password" placeholder="Password"><br>
+        </div>
+        <div class="ui warning message" *ngIf="!loginForm.get('password').valid && loginForm.get('password').touched">
+             <ul class="list">
+                <li *ngIf="loginForm.get('password').hasError('required') && loginForm.get('password').touched">Password is required.</li>
+                <li *ngIf="loginForm.get('password').hasError('minlength') && loginForm.get('password').touched">Password must be minimum of 1 characters.</li>
+                <li *ngIf="loginForm.get('password').hasError('maxlength') && loginForm.get('password').touched">Password must be maximum of 15 characters.</li>
+            </ul>
+        </div>
+        <button class="ui blue submit button" [disabled]="(loading || !loginForm.valid)" (click)="login()">Login</button>
+        <i *ngIf="loading" class="black notched circle loading icon"></i>
+    </form>
+    <div class="ui bottom attached warning message">
+        <i class="icon help"></i>
+        Not registered yet? <a routerLink="/register">Register here</a>.
+    </div>
+</div>
+
+<div *ngIf="this.authenticationService.authenticated">
+    <h4 class="ui header">Already logged in</h4>
+    <button class="ui blue submit button" (click)="goBack()">Back</button>
+</div>
