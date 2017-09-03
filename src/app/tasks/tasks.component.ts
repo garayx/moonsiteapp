@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import 'rxjs/add/operator/catch'
 import { AlertService, AuthenticationService, TaskService } from '../_services/index';
-import { DragulaService } from 'ng2-dragula/ng2-dragula';
+//import { DragulaService } from 'ng2-dragula/ng2-dragula';
  
 import { User } from '../_models/index';
 import { Task } from '../_models/index';
